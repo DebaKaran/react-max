@@ -1,22 +1,29 @@
 import { useState } from "react";
 
 const Player = () => {
-  const [name, setName] = useState<string>('unknown entity');
-   
+  const [name, setName] = useState<string>('');
+  const [submitted, setSubmitted] = useState<boolean>(false);
+
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    let inputValue = event.target.value;
-    if(inputValue.trim() === '') {
-      inputValue = 'unknown entity';
-    }
+    const inputValue = event.target.value;  
     setName(inputValue);
   }
-  
+
+  const handleOnClick = () => {
+    if(name.trim() === '') {
+        setSubmitted(false);
+        return;
+    }
+    setSubmitted(true);
+  }
+
+  const displayName = submitted && name.trim() !== '' ? name : "unknown entity";
   return (
     <section>
-      <h2>Welcome {name}</h2>
+      <h2>Welcome {displayName}</h2>
       <p>
-        <input type="text" onChange={handleChange} />
-        <button>Set Player Name</button>
+        <input type="text" onChange={handleChange} value={name}/>
+        <button onClick={handleOnClick}>Set Player Name</button>
       </p>
       
     </section>
