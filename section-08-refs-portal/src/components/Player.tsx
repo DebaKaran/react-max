@@ -28,6 +28,7 @@ const Player = () => {
   const handleOnClick = () => {
     const enteredName = playerName.current?.value.trim() || '';
     setName(enteredName);
+    playerName.current!.value = '';
   }
 
   const displayName = name.trim() !== '' ? name : "unknown entity"
