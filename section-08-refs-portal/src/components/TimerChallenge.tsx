@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 
 interface TimerChallengeProps {
     title: string;
@@ -8,14 +8,26 @@ interface TimerChallengeProps {
 const TimerChallenge = ({title, targetTime}: TimerChallengeProps) => {
 
  const [timerExpired, setTimerExpired] = useState(false);
-  const [timerStarted, setTimerStarted] = useState(false);
+ const [timerStarted, setTimerStarted] = useState(false);
   
+ const timerId = useRef<ReturnType<typeof setTimeout> | null>(null);
+ 
   const handleStart = () => {
+    setTimerExpired(false);
     setTimerStarted(true);
-    setTimeout(() => {
+    timerId.current = setTimeout(() => {
         setTimerExpired(true);
         setTimerStarted(false);
     }, targetTime * 1000);
+    
+  }
+
+  const handleStop = () => {
+    if(timerId.current) {
+        clearTimeout(timerId.current);
+        timerId.current = null;
+    }
+    setTimerStarted(false);
   }
   return (
     <section className="challenge">
@@ -25,7 +37,7 @@ const TimerChallenge = ({title, targetTime}: TimerChallengeProps) => {
         {targetTime} second{targetTime > 1 ? "s": ""}
       </p>
       <p>
-        <button onClick={handleStart}>
+        <button onClick={timerStarted ? handleStop : handleStart}>
             {timerStarted ? "Stop Challenge" : "Start Challenge"}
         </button>
       </p>
