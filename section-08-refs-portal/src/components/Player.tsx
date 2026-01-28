@@ -10,14 +10,11 @@ const Player = () => {
   }
 
   const handleOnClick = () => {
-    if(name.trim() === '') {
-        setSubmitted(false);
-        return;
-    }
-    setSubmitted(true);
+    setSubmitted(name.trim() !== '' );
   }
 
-  const displayName = submitted && name.trim() !== '' ? name : "unknown entity";
+  const displayName = submitted ? name : "unknown entity";
+  
   return (
     <section>
       <h2>Welcome {displayName}</h2>
