@@ -22,13 +22,13 @@ import { useRef, useState } from "react";
 
 const Player = () => {
   const [name, setName] = useState<string>('');
-  
+
   const playerName = useRef<HTMLInputElement>(null);
 
   const handleOnClick = () => {
     const enteredName = playerName.current?.value.trim() || '';
-    setName(enteredName);
     playerName.current!.value = '';
+    setName(enteredName);
   }
 
   const displayName = name.trim() !== '' ? name : "unknown entity"
@@ -37,10 +37,10 @@ const Player = () => {
     <section>
       <h2>Welcome {displayName}</h2>
       <p>
-        <input ref={playerName} type="text"/>
+        <input ref={playerName} type="text" />
         <button onClick={handleOnClick}>Set Player Name</button>
       </p>
-      
+
     </section>
   )
 }
