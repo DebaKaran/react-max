@@ -6,7 +6,11 @@ export default function Signup() {
         const formData = new FormData(event.currentTarget);
 
         //const email = formData.get("email");
-        const data = Object.fromEntries(formData.entries()) as Record<string, FormDataEntryValue>;
+        const data = {
+            ...Object.fromEntries(formData.entries()) as Record<string, FormDataEntryValue>,
+            acquisition: formData.getAll("acquisition")
+
+        };
 
         console.log(data);
     }
