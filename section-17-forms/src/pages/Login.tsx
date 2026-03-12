@@ -1,6 +1,10 @@
 const Login = () => {
+  function handleSubmission(event: React.FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    console.log("Submitted")
+  }
   return (
-    <form>
+    <form onSubmit={handleSubmission}>
       <h2>Login</h2>
 
       <div className="control-row">
@@ -16,8 +20,8 @@ const Login = () => {
       </div>
 
       <p className="form-actions">
-        <button className="button button-flat">Reset</button>
-        <button className="button">Login</button>
+        <button className="button button-flat" type="reset">Reset</button>
+        <button className="button" type="submit">Login</button>
       </p>
     </form>
   )
