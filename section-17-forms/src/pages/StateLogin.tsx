@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { type LoginForm, type TouchedFields } from "../types/StateLogin.types";
 import { INITIAL_FORM, INITIAL_TOUCHED, PASSWORD_MESSAGES } from "../utils/LoginFormData";
+import InputField from "../components/InputField";
 
 const StateLogin = () => {
   const [formData, setFormData] = useState<LoginForm>(INITIAL_FORM);
@@ -78,31 +79,41 @@ const StateLogin = () => {
       <h2>Login</h2>
 
       <div className="control-row">
-        <div className="control no-margin">
-          <label htmlFor="email">Email</label>
-          <input id="email" type="email" name="email" onChange={handleChange} value={formData.email} onBlur={handleInputBlur} />
-          <div className="control-error">
-            {isEmailInvalid && <p>Please enter a valid email address</p>}
-          </div>
-        </div>
+        <InputField
+          label="Email"
+          id="email"
+          name="email"
+          type="email"
+          value={formData.email}
+          onChange={handleChange}
+          onBlur={handleInputBlur}
+          error={
+            isEmailInvalid && <p>Please enter a valid email address</p>
+          } />
 
-        <div className="control no-margin">
-          <label htmlFor="password">Password</label>
-          <input id="password" type="password" name="password" onChange={handleChange} value={formData.password} onBlur={handleInputBlur} />
-          <div className="control-error">
-            {didEdit.password && (
+
+        <InputField
+          label="Password"
+          id="password"
+          name="password"
+          type="password"
+          value={formData.password}
+          onChange={handleChange}
+          onBlur={handleInputBlur}
+          error={
+            didEdit.password && (
               <ul>
-                {Object.entries(passwordValidations).map(([rule, isValid]) => (
-                  !isValid && (
+                {Object.entries(passwordValidations).map(([rule, isValid]) =>
+                  !isValid ? (
                     <li key={rule}>
                       {PASSWORD_MESSAGES[rule as keyof typeof PASSWORD_MESSAGES]}
                     </li>
-                  )
-                ))}
+                  ) : null
+                )}
               </ul>
-            )}
-          </div>
-        </div>
+            )
+          }
+        />
       </div>
 
       <p className="form-actions">
