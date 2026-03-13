@@ -1,4 +1,18 @@
+import { useState } from "react";
+
+type SignupFormData = {
+    email: string;
+    password: string;
+    "confirm-password": string;
+    "first-name": string;
+    "last-name": string;
+    role: string;
+    acquisition: string[];
+    terms?: string;
+};
+
 export default function Signup() {
+    const [isPasswordsAreNotEqual, setIsPasswordsAreNotEqual] = useState(false);
 
     const handleSubmission = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
@@ -8,10 +22,15 @@ export default function Signup() {
         //const email = formData.get("email");
         const data = {
             ...Object.fromEntries(formData.entries()) as Record<string, FormDataEntryValue>,
-            acquisition: formData.getAll("acquisition")
+            acquisition: formData.getAll("acquisition") as string[]
 
-        };
+        } as SignupFormData;
 
+        if (data.password !== data['confirm-password']) {
+            setIsPasswordsAreNotEqual(true);
+            //Dont submit the form
+            return;
+        }
         console.log(data);
     }
     return (
@@ -21,13 +40,13 @@ export default function Signup() {
 
             <div className="control">
                 <label htmlFor="email">Email</label>
-                <input id="email" type="email" name="email" />
+                <input id="email" type="email" name="email" required />
             </div>
 
             <div className="control-row">
                 <div className="control">
                     <label htmlFor="password">Password</label>
-                    <input id="password" type="password" name="password" />
+                    <input id="password" type="password" name="password" required minLength={6} />
                 </div>
 
                 <div className="control">
@@ -37,6 +56,9 @@ export default function Signup() {
                         type="password"
                         name="confirm-password"
                     />
+                    <div className="control-error">
+                        {isPasswordsAreNotEqual && <p>Password must match</p>}
+                    </div>
                 </div>
             </div>
 

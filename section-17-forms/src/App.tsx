@@ -1,8 +1,9 @@
 
 import './App.css'
 import Header from './pages/Header'
-import Login from './pages/Login'
-import StateLogin from './pages/StateLogin'
+import Signup from './pages/Signup'
+// import Login from './pages/Login'
+// import StateLogin from './pages/StateLogin'
 
 function App() {
 
@@ -12,8 +13,8 @@ function App() {
       <Header />
       <main>
         {/* <Login /> */}
-        <StateLogin />
-        {/* <Signup /> */}
+        {/* <StateLogin /> */}
+        <Signup />
       </main>
     </>
   )
