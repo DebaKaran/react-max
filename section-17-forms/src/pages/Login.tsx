@@ -42,6 +42,9 @@ const Login = () => {
 
     console.log("Entered Email: " + enteredEmail);
     console.log("Entered Password: " + enteredPassword);
+
+    //Resetting the form when the form is successfully submitted
+    event.currentTarget.reset();
   }
 
   return (
