@@ -21,14 +21,21 @@ const Login = () => {
   const handleSubmission = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
+    if (!emailRef.current || !passwordRef.current) {
+      return;
+    }
+
     const enteredEmail = emailRef.current?.value;
-    const emailIsInvalid = !enteredEmail?.includes('@')
+    const emailIsInvalid = !enteredEmail.includes('@')
 
     if (emailIsInvalid) {
       setDidEdit(prev => ({
         ...prev, email: true
       }));
 
+      //Now the cursor jumps back to the email input automatically when it has an error
+      emailRef.current.focus();
+      return;
     }
 
     const enteredPassword = passwordRef.current?.value;
