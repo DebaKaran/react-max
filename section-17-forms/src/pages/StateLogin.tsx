@@ -6,9 +6,22 @@ const StateLogin = () => {
     password: ''
   };
 
-  const [formData, setFormData] = useState(initialForm);
+  const touched = {
+    email: false,
+    password: false
+  };
 
-  //const isEmailValid = formData.email.includes('@');
+  const [formData, setFormData] = useState(initialForm);
+  const [didEdit, setDidEdit] = useState(touched);
+
+  //Password validation object
+  const passwordValidations = {
+    length: formData.password.length >= 8,
+    number: /\d/.test(formData.password),
+    uppercase: /[A-Z]/.test(formData.password)
+  };
+
+  const isEmailInvalid = didEdit.email && !formData.email.includes('@');
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
@@ -22,12 +35,22 @@ const StateLogin = () => {
   const handleSubmission = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     console.log("Entered Email: " + formData.email);
+
     //Resetting state after submit
     setFormData(initialForm);
   }
 
   const handleReset = () => {
     setFormData(initialForm);
+  }
+
+  const handleInputBlur = (event: React.FocusEvent<HTMLInputElement>) => {
+    const { name } = event.target;
+
+    setDidEdit(prev => ({
+      ...prev,
+      [name]: true
+    }));
   }
   return (
     <form onSubmit={handleSubmission}>
@@ -36,15 +59,32 @@ const StateLogin = () => {
       <div className="control-row">
         <div className="control no-margin">
           <label htmlFor="email">Email</label>
-          <input id="email" type="email" name="email" onChange={handleChange} value={formData.email} />
-          {/* <div className="control-error">
-            {!isEmailValid && <p>Please enter a valid email address</p>}
-          </div> */}
+          <input id="email" type="email" name="email" onChange={handleChange} value={formData.email} onBlur={handleInputBlur} />
+          <div className="control-error">
+            {isEmailInvalid && <p>Please enter a valid email address</p>}
+          </div>
         </div>
 
         <div className="control no-margin">
           <label htmlFor="password">Password</label>
-          <input id="password" type="password" name="password" onChange={handleChange} value={formData.password} />
+          <input id="password" type="password" name="password" onChange={handleChange} value={formData.password} onBlur={handleInputBlur} />
+          <div className="control-error">
+            {didEdit.password && (
+              <ul>
+                {!passwordValidations.length && (
+                  <li>Password must be at least 8 characters</li>
+                )}
+
+                {!passwordValidations.number && (
+                  <li>Password must contain a number</li>
+                )}
+
+                {!passwordValidations.uppercase && (
+                  <li>Password must contain an uppercase letter</li>
+                )}
+              </ul>
+            )}
+          </div>
         </div>
       </div>
 
