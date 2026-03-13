@@ -116,7 +116,15 @@ const Login = () => {
           <input id="password" type="password" name="password" ref={passwordRef} />
 
           {/* Display password validation errors only after validation fails */}
-          {didEdit.password && passwordErrors}
+          <div>
+            {didEdit.password && passwordErrors.length > 0 && (
+              <ul>
+                {passwordErrors.map((msg, index) => (
+                  <li key={index}>{msg}</li>
+                ))}
+              </ul>
+            )}
+          </div>
         </div>
       </div>
 
