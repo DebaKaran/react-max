@@ -21,6 +21,12 @@ const StateLogin = () => {
     uppercase: /[A-Z]/.test(formData.password)
   };
 
+  const passwordMessages: Record<string, string> = {
+    length: "Password must be at least 8 characters",
+    number: "Password must contain a number",
+    uppercase: "Password must contain an uppercase letter"
+  };
+
   const isEmailInvalid = didEdit.email && !formData.email.includes('@');
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -84,17 +90,13 @@ const StateLogin = () => {
           <div className="control-error">
             {didEdit.password && (
               <ul>
-                {!passwordValidations.length && (
-                  <li>Password must be at least 8 characters</li>
-                )}
-
-                {!passwordValidations.number && (
-                  <li>Password must contain a number</li>
-                )}
-
-                {!passwordValidations.uppercase && (
-                  <li>Password must contain an uppercase letter</li>
-                )}
+                {Object.entries(passwordValidations).map(([rule, isValid]) => (
+                  !isValid && (
+                    <li key={rule}>
+                      {passwordMessages[rule]}
+                    </li>
+                  )
+                ))}
               </ul>
             )}
           </div>
