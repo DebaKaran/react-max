@@ -3,6 +3,7 @@ import React, { useRef, useState } from "react";
 const Login = () => {
   const emailRef = useRef<HTMLInputElement>(null);
   const passwordRef = useRef<HTMLInputElement>(null);
+  const [passwordErrors, setPasswordErrors] = useState<string[]>([]);
 
   const touched = {
     email: false,
@@ -11,11 +12,11 @@ const Login = () => {
 
   const [didEdit, setDidEdit] = useState(touched);
 
-  // const passwordMessages: Record<string, string> = {
-  //   length: "Password must be at least 8 characters",
-  //   number: "Password must contain a number",
-  //   uppercase: "Password must contain an uppercase letter"
-  // };
+  const passwordMessages: Record<string, string> = {
+    length: "Password must be at least 8 characters",
+    number: "Password must contain a number",
+    uppercase: "Password must contain an uppercase letter"
+  };
 
 
   const handleSubmission = (event: React.FormEvent<HTMLFormElement>) => {
@@ -25,7 +26,7 @@ const Login = () => {
       return;
     }
 
-    const enteredEmail = emailRef.current?.value;
+    const enteredEmail = emailRef.current.value;
     const emailIsInvalid = !enteredEmail.includes('@')
 
     if (emailIsInvalid) {
@@ -38,7 +39,55 @@ const Login = () => {
       return;
     }
 
-    const enteredPassword = passwordRef.current?.value;
+    const enteredPassword = passwordRef.current.value;
+
+    // Define validation rules for the password.
+    // Each property represents a rule and returns true if the rule is satisfied.
+    const passwordValidations = {
+      length: enteredPassword.length >= 8,          // Password must be at least 8 characters
+      number: /\d/.test(enteredPassword),           // Password must contain at least one digit
+      uppercase: /[A-Z]/.test(enteredPassword)      // Password must contain at least one uppercase letter
+    };
+
+    // Convert the validation object into an array of error messages.
+    //
+    // Step 1: Object.entries(passwordValidations)
+    //   Converts object into array like:
+    //   [
+    //     ["length", true],
+    //     ["number", false],
+    //     ["uppercase", true]
+    //   ]
+    //
+    // Step 2: filter()
+    //   Keep only the rules that failed (isValid === false)
+    //
+    // Step 3: map()
+    //   Convert the rule name into a user-friendly error message
+    const errors = Object.entries(passwordValidations)
+      .filter(([_, isValid]) => !isValid)
+      .map(([rule]) => passwordMessages[rule]);
+
+    // Store the validation errors in React state.
+    // The UI will later display these messages if validation fails.
+    setPasswordErrors(errors);
+
+    // If there are any validation errors:
+    if (errors.length > 0) {
+
+      // Mark the password field as "edited" so the error messages can be shown
+      setDidEdit(prev => ({
+        ...prev,
+        password: true
+      }));
+
+      // Move the cursor back to the password input field
+      // so the user can immediately fix the problem
+      passwordRef.current.focus();
+
+      // Stop form submission
+      return;
+    }
 
     console.log("Entered Email: " + enteredEmail);
     console.log("Entered Password: " + enteredPassword);
@@ -62,7 +111,12 @@ const Login = () => {
 
         <div className="control no-margin">
           <label htmlFor="password">Password</label>
+
+          {/* Uncontrolled password input accessed using useRef */}
           <input id="password" type="password" name="password" ref={passwordRef} />
+
+          {/* Display password validation errors only after validation fails */}
+          {didEdit.password && passwordErrors}
         </div>
       </div>
 
