@@ -53,8 +53,20 @@ const StateLogin = () => {
   };
   const handleSubmission = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+    if (formData.email === '') {
+      setDidEdit(prev => ({
+        ...prev, email: true
+      }))
+      return; // stop submission
+    }
     console.log("Entered Email: " + formData.email);
 
+    if (formData.password === '') {
+      setDidEdit(prev => ({
+        ...prev, password: true
+      }))
+      return; // stop submission
+    }
     //Resetting state after submit
     setFormData(initialForm);
   }
