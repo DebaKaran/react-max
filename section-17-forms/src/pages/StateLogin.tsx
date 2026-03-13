@@ -1,30 +1,16 @@
 import React, { useState } from "react";
+import { type LoginForm, type TouchedFields } from "../types/StateLogin.types";
+import { INITIAL_FORM, INITIAL_TOUCHED, PASSWORD_MESSAGES } from "../utils/LoginFormData";
 
 const StateLogin = () => {
-  const initialForm = {
-    email: '',
-    password: ''
-  };
-
-  const touched = {
-    email: false,
-    password: false
-  };
-
-  const [formData, setFormData] = useState(initialForm);
-  const [didEdit, setDidEdit] = useState(touched);
+  const [formData, setFormData] = useState<LoginForm>(INITIAL_FORM);
+  const [didEdit, setDidEdit] = useState<TouchedFields>(INITIAL_TOUCHED);
 
   //Password validation object
   const passwordValidations = {
     length: formData.password.length >= 8,
     number: /\d/.test(formData.password),
     uppercase: /[A-Z]/.test(formData.password)
-  };
-
-  const passwordMessages: Record<string, string> = {
-    length: "Password must be at least 8 characters",
-    number: "Password must contain a number",
-    uppercase: "Password must contain an uppercase letter"
   };
 
   const isEmailInvalid = didEdit.email && !formData.email.includes('@');
@@ -53,6 +39,7 @@ const StateLogin = () => {
   };
   const handleSubmission = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+
     if (formData.email === '') {
       setDidEdit(prev => ({
         ...prev, email: true
@@ -67,12 +54,15 @@ const StateLogin = () => {
       }))
       return; // stop submission
     }
+
     //Resetting state after submit
-    setFormData(initialForm);
+    setFormData(INITIAL_FORM);
+    setDidEdit(INITIAL_TOUCHED);
   }
 
   const handleReset = () => {
-    setFormData(initialForm);
+    setFormData(INITIAL_FORM);
+    setDidEdit(INITIAL_TOUCHED);
   }
 
   const handleInputBlur = (event: React.FocusEvent<HTMLInputElement>) => {
@@ -105,7 +95,7 @@ const StateLogin = () => {
                 {Object.entries(passwordValidations).map(([rule, isValid]) => (
                   !isValid && (
                     <li key={rule}>
-                      {passwordMessages[rule]}
+                      {PASSWORD_MESSAGES[rule as keyof typeof PASSWORD_MESSAGES]}
                     </li>
                   )
                 ))}
@@ -116,7 +106,7 @@ const StateLogin = () => {
       </div>
 
       <p className="form-actions">
-        <button className="button button-flat" onClick={handleReset}>Reset</button>
+        <button className="button button-flat" onClick={handleReset} type="button">Reset</button>
         <button className="button" type="submit">Login</button>
       </p>
     </form>
