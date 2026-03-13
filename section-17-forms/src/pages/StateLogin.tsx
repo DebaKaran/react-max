@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { type LoginForm, type TouchedFields } from "../types/StateLogin.types";
 import { INITIAL_FORM, INITIAL_TOUCHED, PASSWORD_MESSAGES } from "../utils/LoginFormData";
 import InputField from "../components/InputField";
+import { isEmail, isNotEmty } from "../utils/validation";
 
 const StateLogin = () => {
   const [formData, setFormData] = useState<LoginForm>(INITIAL_FORM);
@@ -14,7 +15,7 @@ const StateLogin = () => {
     uppercase: /[A-Z]/.test(formData.password)
   };
 
-  const isEmailInvalid = didEdit.email && !formData.email.includes('@');
+  const isEmailInvalid = didEdit.email && !isEmail(formData.email) && !isNotEmty(formData.email);
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     // Extract the name and value from the input that triggered the event
