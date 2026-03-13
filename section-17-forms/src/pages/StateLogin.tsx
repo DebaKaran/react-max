@@ -24,14 +24,27 @@ const StateLogin = () => {
   const isEmailInvalid = didEdit.email && !formData.email.includes('@');
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    // Extract the name and value from the input that triggered the event
+    // Example: name="email", value="abc@gmail.com"
     const { name, value } = event.target;
 
+    // Update the corresponding field in the form state
+    // We copy the previous state using the spread operator
+    // and overwrite only the field that changed
     setFormData(prevFormData => ({
       ...prevFormData,
       [name]: value
     }));
-  };
 
+    // When the user starts typing again, we reset the "didEdit" flag
+    // for that specific field.
+    // This hides the validation error while the user is editing the input.
+    // Validation will run again when the user leaves the field (onBlur).
+    setDidEdit(prev => ({
+      ...prev,
+      [name]: false
+    }));
+  };
   const handleSubmission = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     console.log("Entered Email: " + formData.email);
