@@ -1,6 +1,6 @@
 import axios from "axios"
 
-interface UnsplashImage {
+export interface UnsplashImage {
     id: string;
     alt_description: string;
     urls: {
@@ -9,7 +9,7 @@ interface UnsplashImage {
     };
 }
 
-interface UnsplashResponse {
+export interface UnsplashResponse {
     results: UnsplashImage[];
 }
 
