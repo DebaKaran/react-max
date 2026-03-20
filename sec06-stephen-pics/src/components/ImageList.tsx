@@ -2,6 +2,7 @@ import type React from "react";
 import type { UnsplashImage } from "../api";
 import ImageShow from "./ImageShow";
 
+import './ImageList.css'
 interface ImageListProps {
     images: UnsplashImage[];
 }
@@ -10,7 +11,7 @@ const ImageList: React.FC<ImageListProps> = ({ images }) => {
         return <ImageShow key={image.id} image={image} />
     })
     return (
-        <div>
+        <div className="image-list">
             {renderedImages}
         </div>
     )
