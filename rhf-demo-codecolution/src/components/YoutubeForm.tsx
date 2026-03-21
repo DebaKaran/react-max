@@ -23,7 +23,14 @@ const YoutubeForm = () => {
                         required: {
                             value: true,
                             message: "Username is required"
+                        },
+                        validate: (value) => {
+                            if (value.length < 3) return "Minimum 3 characters";
+                            if (value === "admin") return "Username 'admin' is not allowed";
+                            return true;
                         }
+
+
                     })} />
                 </FormField>
 
@@ -36,6 +43,7 @@ const YoutubeForm = () => {
                                 /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/,
                             message: "Invalid email format",
                         },
+                        validate: value => value.endsWith("@gmail.com") || "Only Gmail allowed"
                     })} />
                 </FormField>
 
