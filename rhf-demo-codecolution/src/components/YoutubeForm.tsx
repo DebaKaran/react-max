@@ -7,12 +7,13 @@ interface IYoutubeFormInput {
 }
 const YoutubeForm = () => {
     const form = useForm<IYoutubeFormInput>();
-    const { register, control } = form;
+    const { register, control, handleSubmit } = form;
 
+    const onSubmit = (data: IYoutubeFormInput) => console.log(data);
 
     return (
         <div>
-            <form>
+            <form onSubmit={handleSubmit(onSubmit)}>
                 <label htmlFor="username">Username</label>
                 <input type="text" id="username" {...register("username")} />
 
