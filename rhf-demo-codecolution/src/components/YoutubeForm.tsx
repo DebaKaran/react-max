@@ -23,7 +23,7 @@ const YoutubeForm = () => {
                         message: "Username is required"
                     }
                 })} />
-                {errors.username && <p>{errors.username.message}</p>}
+                {errors.username && <p className="error">{errors.username.message}</p>}
                 <label htmlFor="email">Email</label>
                 <input type="text" id="email" {...register("email", {
                     required: "Email is required",
@@ -33,7 +33,7 @@ const YoutubeForm = () => {
                         message: "Invalid email format",
                     },
                 })} />
-                {errors.email && <p>{errors.email.message}</p>}
+                {errors.email && <p className="error">{errors.email.message}</p>}
                 <label htmlFor="channel">Channel</label>
                 <input type="text" id="channel" {...register("channel", {
                     required: {
@@ -41,7 +41,7 @@ const YoutubeForm = () => {
                         message: "Channel is required"
                     }
                 })} />
-                {errors.channel && <p>{errors.channel.message}</p>}
+                {errors.channel && <p className="error">{errors.channel.message}</p>}
                 <button>Submit</button>
             </form>
             {import.meta.env.DEV && <DevTool control={control} />} {/* set up the dev tool */}
