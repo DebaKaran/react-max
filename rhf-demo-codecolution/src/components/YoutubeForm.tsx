@@ -5,7 +5,11 @@ import { validationRules } from "../validations/validation";
 interface IYoutubeFormInput {
     username: string;
     email: string;
-    channel: string
+    channel: string;
+    social: {
+        facebook: "",
+        twitter: ""
+    }
 }
 const YoutubeForm = () => {
     const form = useForm<IYoutubeFormInput>({
@@ -16,7 +20,11 @@ const YoutubeForm = () => {
             return {
                 username: data.name,
                 email: data.email,
-                channel: "YouTube"
+                channel: "YouTube",
+                social: {
+                    facebook: "",
+                    twitter: ""
+                }
             }
         }
     });
@@ -41,6 +49,16 @@ const YoutubeForm = () => {
                 <FormField label="Channel" id="channel"
                     error={errors.channel?.message}>
                     <input type="text" id="channel" {...register("channel", validationRules.channel)} />
+                </FormField>
+
+                <FormField label="Facebook" id="facebook"
+                    error={errors.social?.facebook?.message}>
+                    <input type="text" id="facebook" {...register("social.facebook", validationRules.facebook)} />
+                </FormField>
+
+                <FormField label="Twitter" id="twitter"
+                    error={errors.social?.twitter?.message}>
+                    <input type="text" id="twitter" {...register("social.twitter", validationRules.twitter)} />
                 </FormField>
 
                 <button>Submit</button>

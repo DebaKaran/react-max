@@ -26,5 +26,20 @@ export const validationRules = {
             value: true,
             message: "Channel is required"
         }
+    },
+    facebook: {
+        required: "Facebook profile is required",
+        pattern: {
+            value: /^(https?:\/\/)?(www\.)?facebook\.com\/[A-Za-z0-9.]+\/?$|^[A-Za-z0-9.]+$/,
+            message: "Enter a valid Facebook URL or username"
+        }
+    },
+
+    twitter: {
+        required: "Twitter handle is required",
+        pattern: {
+            value: /^(https?:\/\/)?(www\.)?(twitter\.com)\/@?[A-Za-z0-9_]{1,15}\/?$|^@?[A-Za-z0-9_]{1,15}$/,
+            message: "Enter a valid Twitter URL or handle"
+        }
     }
 }
