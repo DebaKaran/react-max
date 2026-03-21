@@ -24,7 +24,7 @@ const YoutubeForm = () => {
 
                 <button>Submit</button>
             </form>
-            <DevTool control={control} /> {/* set up the dev tool */}
+            {import.meta.env.DEV && <DevTool control={control} />} {/* set up the dev tool */}
         </div>
     )
 }
