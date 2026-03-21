@@ -9,7 +9,8 @@ interface IYoutubeFormInput {
     social: {
         facebook: "",
         twitter: ""
-    }
+    },
+    phoneNumbers: string[];
 }
 const YoutubeForm = () => {
     const form = useForm<IYoutubeFormInput>({
@@ -24,7 +25,8 @@ const YoutubeForm = () => {
                 social: {
                     facebook: "",
                     twitter: ""
-                }
+                },
+                phoneNumbers: ["", ""]
             }
         }
     });
@@ -61,6 +63,14 @@ const YoutubeForm = () => {
                     <input type="text" id="twitter" {...register("social.twitter", validationRules.twitter)} />
                 </FormField>
 
+                <FormField label="Primary Phone Number" id="primary-phone"
+                    error={errors.phoneNumbers?.message}>
+                    <input type="text" id="primary-phone" {...register("phoneNumbers.0", validationRules.phone)} />
+                </FormField>
+                <FormField label="Seconday Phone Number" id="seconday-phone"
+                    error={errors.phoneNumbers?.message}>
+                    <input type="text" id="seconday-phone" {...register("phoneNumbers.1", validationRules.phone)} />
+                </FormField>
                 <button>Submit</button>
             </form>
             {import.meta.env.DEV && <DevTool control={control} />} {/* set up the dev tool */}

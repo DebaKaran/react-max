@@ -27,7 +27,7 @@ export const validationRules = {
             message: "Channel is required"
         }
     },
-    facebook: {
+    /**facebook: {
         required: "Facebook profile is required",
         pattern: {
             value: /^(https?:\/\/)?(www\.)?facebook\.com\/[A-Za-z0-9.]+\/?$|^[A-Za-z0-9.]+$/,
@@ -41,5 +41,11 @@ export const validationRules = {
             value: /^(https?:\/\/)?(www\.)?(twitter\.com)\/@?[A-Za-z0-9_]{1,15}\/?$|^@?[A-Za-z0-9_]{1,15}$/,
             message: "Enter a valid Twitter URL or handle"
         }
-    }
+    },*/
+    /**phone: {
+        pattern: {
+            value: /^[6-9]\d{9}$/,
+            message: "Enter valid 10-digit Indian phone number"
+        }
+    } */
 }
