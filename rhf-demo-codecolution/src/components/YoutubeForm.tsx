@@ -1,5 +1,6 @@
 import { useForm } from "react-hook-form";
 import { DevTool } from "@hookform/devtools";
+import FormField from "./FormField";
 interface IYoutubeFormInput {
     username: string;
     email: string;
@@ -15,8 +16,8 @@ const YoutubeForm = () => {
     return (
         <div>
             <form onSubmit={handleSubmit(onSubmit)} noValidate>
-                <div className="form-control">
-                    <label htmlFor="username">Username</label>
+                <FormField label="Username" id="username"
+                    error={errors.username?.message}>
                     <input type="text" id="username" {...register("username", {
 
                         required: {
@@ -24,12 +25,10 @@ const YoutubeForm = () => {
                             message: "Username is required"
                         }
                     })} />
-                    {errors.username && <p className="error">{errors.username.message}</p>}
-                </div>
+                </FormField>
 
-
-                <div className="form-control">
-                    <label htmlFor="email">Email</label>
+                <FormField label="Email" id="email"
+                    error={errors.email?.message}>
                     <input type="text" id="email" {...register("email", {
                         required: "Email is required",
                         pattern: {
@@ -38,20 +37,17 @@ const YoutubeForm = () => {
                             message: "Invalid email format",
                         },
                     })} />
-                    {errors.email && <p className="error">{errors.email.message}</p>}
-                </div>
+                </FormField>
 
-
-                <div className="form-control">
-                    <label htmlFor="channel">Channel</label>
+                <FormField label="Channel" id="channel"
+                    error={errors.channel?.message}>
                     <input type="text" id="channel" {...register("channel", {
                         required: {
                             value: true,
                             message: "Channel is required"
                         }
                     })} />
-                    {errors.channel && <p className="error">{errors.channel.message}</p>}
-                </div>
+                </FormField>
 
                 <button>Submit</button>
             </form>
