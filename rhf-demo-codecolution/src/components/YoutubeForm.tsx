@@ -9,10 +9,15 @@ interface IYoutubeFormInput {
 }
 const YoutubeForm = () => {
     const form = useForm<IYoutubeFormInput>({
-        defaultValues: {
-            username: "Deba",
-            email: "deba@gmail.com",
-            channel: "MyChannel"
+        defaultValues: async () => {
+            const res = await fetch("https://jsonplaceholder.typicode.com/users/1");
+            const data = await res.json();
+
+            return {
+                username: data.name,
+                email: data.email,
+                channel: "YouTube"
+            }
         }
     });
     const { register, control, handleSubmit, formState } = form;
