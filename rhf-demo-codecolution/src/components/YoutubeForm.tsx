@@ -7,7 +7,8 @@ interface IYoutubeFormInput {
 }
 const YoutubeForm = () => {
     const form = useForm<IYoutubeFormInput>();
-    const { register, control, handleSubmit } = form;
+    const { register, control, handleSubmit, formState } = form;
+    const { errors } = formState;
 
     const onSubmit = (data: IYoutubeFormInput) => console.log(data);
 
@@ -22,7 +23,7 @@ const YoutubeForm = () => {
                         message: "Username is required"
                     }
                 })} />
-
+                <p>{errors.username?.message}</p>
                 <label htmlFor="email">Email</label>
                 <input type="text" id="email" {...register("email", {
                     pattern: {
@@ -31,7 +32,7 @@ const YoutubeForm = () => {
                         message: "Invalid email format",
                     },
                 })} />
-
+                <p>{errors.email?.message}</p>
                 <label htmlFor="channel">Channel</label>
                 <input type="text" id="channel" {...register("channel", {
                     required: {
@@ -39,7 +40,7 @@ const YoutubeForm = () => {
                         message: "Channel is required"
                     }
                 })} />
-
+                <p>{errors.channel?.message}</p>
                 <button>Submit</button>
             </form>
             {import.meta.env.DEV && <DevTool control={control} />} {/* set up the dev tool */}
