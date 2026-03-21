@@ -1,6 +1,7 @@
 import { useForm } from "react-hook-form";
 import { DevTool } from "@hookform/devtools";
 import FormField from "./FormField";
+import { validationRules } from "../validations/validation";
 interface IYoutubeFormInput {
     username: string;
     email: string;
@@ -18,45 +19,17 @@ const YoutubeForm = () => {
             <form onSubmit={handleSubmit(onSubmit)} noValidate>
                 <FormField label="Username" id="username"
                     error={errors.username?.message}>
-                    <input type="text" id="username" {...register("username", {
-
-                        required: {
-                            value: true,
-                            message: "Username is required"
-                        },
-                        validate: (value) => {
-                            if (value.length < 3) return "Minimum 3 characters";
-                            if (value === "admin") return "Username 'admin' is not allowed";
-                            return true;
-                        }
-
-
-                    })} />
+                    <input type="text" id="username" {...register("username", validationRules.username)} />
                 </FormField>
 
                 <FormField label="Email" id="email"
                     error={errors.email?.message}>
-                    <input type="text" id="email" {...register("email", {
-                        required: "Email is required",
-                        pattern: {
-                            value:
-                                /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/,
-                            message: "Invalid email format",
-                        },
-                        validate: {
-                            notGmal: value => value.endsWith("@gmail.com") || "Only Gmail allowed"
-                        }
-                    })} />
+                    <input type="text" id="email" {...register("email", validationRules.email)} />
                 </FormField>
 
                 <FormField label="Channel" id="channel"
                     error={errors.channel?.message}>
-                    <input type="text" id="channel" {...register("channel", {
-                        required: {
-                            value: true,
-                            message: "Channel is required"
-                        }
-                    })} />
+                    <input type="text" id="channel" {...register("channel", validationRules.channel)} />
                 </FormField>
 
                 <button>Submit</button>
