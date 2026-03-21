@@ -8,7 +8,13 @@ interface IYoutubeFormInput {
     channel: string
 }
 const YoutubeForm = () => {
-    const form = useForm<IYoutubeFormInput>();
+    const form = useForm<IYoutubeFormInput>({
+        defaultValues: {
+            username: "Deba",
+            email: "deba@gmail.com",
+            channel: "MyChannel"
+        }
+    });
     const { register, control, handleSubmit, formState } = form;
     const { errors } = formState;
 
