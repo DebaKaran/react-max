@@ -1,4 +1,4 @@
-import type { FieldArrayWithId, FieldErrors, UseFormRegister } from "react-hook-form"
+import type { FieldArrayWithId, FieldErrors, UseFormGetValues, UseFormRegister, UseFormSetError } from "react-hook-form"
 import type { IYoutubeFormInput } from "../typed/IYoutubeFormInput"
 import FormField from "./FormField";
 import { normalizePhone } from "../transformation/transform";
@@ -8,16 +8,36 @@ type PhoneNumbersProps = {
     append: (value: { phNumber: string }) => void;
     remove: (index: number) => void;
     register: UseFormRegister<IYoutubeFormInput>;
-    errors: FieldErrors<IYoutubeFormInput>
+    errors: FieldErrors<IYoutubeFormInput>;
+    getValues: UseFormGetValues<IYoutubeFormInput>;
+    setError: UseFormSetError<IYoutubeFormInput>;
+
 }
 const PhoneNumbers = ({
     fields,
     append,
     remove,
     register,
-    errors
+    errors,
+    getValues,
+    setError
 }: PhoneNumbersProps) => {
 
+    const handleAddPhone = () => {
+        const phones = getValues("phoneNumbers");
+        const lastIndex = phones.length - 1;
+        const last = phones[lastIndex]?.phNumber;
+
+        if (!last) {
+            setError(`phoneNumbers.${lastIndex}.phNumber`, {
+                type: "manual",
+                message: "Fill current phone before adding new one"
+            });
+            return;
+        }
+        append({ phNumber: "" });
+
+    }
     return (
         <div>
             {fields.map((item, index) => (
@@ -53,7 +73,7 @@ const PhoneNumbers = ({
                     */}
             <button
                 type="button"
-                onClick={() => append({ phNumber: "" })}
+                onClick={handleAddPhone}
             >
                 Add Phone Number
             </button>

@@ -32,7 +32,7 @@ const YoutubeForm = () => {
         }
     });
 
-    const { register, control, handleSubmit, formState, watch } = form;
+    const { register, control, handleSubmit, formState, watch, getValues, setError } = form;
     const { errors } = formState;
 
     //const watchFacebook = watch("social.facebook");
@@ -84,7 +84,7 @@ const YoutubeForm = () => {
 
                 {/* Dynamic Phone Numbers */}
 
-                <PhoneNumbers fields={fields} append={append} remove={remove} register={register} errors={errors} />
+                <PhoneNumbers fields={fields} append={append} remove={remove} register={register} errors={errors} getValues={getValues} setError={setError} />
 
                 <FormField label="Age" id="age"
                     error={errors.age?.message}>
