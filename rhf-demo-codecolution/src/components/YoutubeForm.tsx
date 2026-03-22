@@ -1,4 +1,4 @@
-import { useFieldArray, useForm } from "react-hook-form";
+import { useFieldArray, useForm, useWatch } from "react-hook-form";
 import { DevTool } from "@hookform/devtools";
 import FormField from "./FormField";
 import { validationRules } from "../validations/validation";
@@ -46,7 +46,12 @@ const YoutubeForm = () => {
     const { register, control, handleSubmit, formState, watch } = form;
     const { errors } = formState;
 
-    const watchFacebook = watch("social.facebook");
+    //const watchFacebook = watch("social.facebook");
+    const watchFacebook = useWatch({
+        name: "social.facebook",
+        control
+    });
+
     const watchPhoneNumbers = watch("phoneNumbers");
 
     const { fields, append, remove } = useFieldArray({
