@@ -42,10 +42,10 @@ export const validationRules = {
             message: "Enter a valid Twitter URL or handle"
         }
     },*/
-    /**phone: {
+    phone: {
         pattern: {
             value: /^[6-9]\d{9}$/,
             message: "Enter valid 10-digit Indian phone number"
         }
-    } */
+    }
 }
