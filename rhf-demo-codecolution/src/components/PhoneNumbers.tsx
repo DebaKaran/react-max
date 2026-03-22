@@ -25,6 +25,16 @@ const PhoneNumbers = ({
 
     const handleAddPhone = () => {
         const phones = getValues("phoneNumbers");
+
+        //u can add max 4 phones
+        if (phones.length >= 4) {
+            setError(`phoneNumbers.${lastIndex}.phNumber`, {
+                type: "manual",
+                message: "Maximum number of phones allowed is 4"
+            });
+            return;
+        }
+
         const lastIndex = phones.length - 1;
         const last = phones[lastIndex]?.phNumber;
 
@@ -35,6 +45,8 @@ const PhoneNumbers = ({
             });
             return;
         }
+
+
         append({ phNumber: "" });
 
     }
