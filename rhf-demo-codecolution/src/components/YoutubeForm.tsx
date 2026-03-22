@@ -47,6 +47,7 @@ const YoutubeForm = () => {
     const { errors } = formState;
 
     const watchFacebook = watch("social.facebook");
+    const watchPhoneNumbers = watch("phoneNumbers");
 
     const { fields, append, remove } = useFieldArray({
         control, // control props comes from useForm
@@ -119,7 +120,7 @@ const YoutubeForm = () => {
                                 type="text"
                                 id={`phone-${index}`}
                                 {...register(`phoneNumbers.${index}.phNumber` as const, {
-                                    ...validationRules.phone,
+                                    //...validationRules.phone,
                                     setValueAs: normalizePhone,
                                     required: index === 0
                                         ? "Primary phone is required"
@@ -164,7 +165,7 @@ const YoutubeForm = () => {
                         valueAsDate: true
                     })} />
                 </FormField>
-                <button>Submit</button>
+                <button disabled={!watchPhoneNumbers?.length}>Submit</button>
             </form>
             {import.meta.env.DEV && <DevTool control={control} />} {/* set up the dev tool */}
         </div>
