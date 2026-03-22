@@ -43,8 +43,10 @@ const YoutubeForm = () => {
         }
     });
 
-    const { register, control, handleSubmit, formState } = form;
+    const { register, control, handleSubmit, formState, watch } = form;
     const { errors } = formState;
+
+    const watchFacebook = watch("social.facebook");
 
     const { fields, append, remove } = useFieldArray({
         control, // control props comes from useForm
@@ -86,13 +88,13 @@ const YoutubeForm = () => {
                     })} />
                 </FormField>
 
-                <FormField label="Twitter" id="twitter"
+                {watchFacebook && (<FormField label="Twitter" id="twitter"
                     error={errors.social?.twitter?.message}>
                     <input type="text" id="twitter" {...register("social.twitter", {
                         //...validationRules.twitter,
                         setValueAs: normalizeTwitter
                     })} />
-                </FormField>
+                </FormField>)}
 
                 {/* removed static phoneNumbers array as we are going for dynamic one */}
 
