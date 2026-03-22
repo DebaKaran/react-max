@@ -48,7 +48,6 @@ const PhoneNumbers = ({
 
 
         append({ phNumber: "" });
-
     }
     return (
         <div>
@@ -56,7 +55,7 @@ const PhoneNumbers = ({
                 <FormField key={item.id}
                     label={index === 0 ? "Primary Phone" : `Secondary Phone ${index}`}
                     id={`phone-${index}`}
-                    error={errors.phoneNumbers?.[index]?.message}>
+                    error={errors.phoneNumbers?.[index]?.phNumber?.message}>
                     <input
                         type="text"
                         id={`phone-${index}`}
