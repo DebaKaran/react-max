@@ -2,6 +2,7 @@ import { useFieldArray, useForm } from "react-hook-form";
 import { DevTool } from "@hookform/devtools";
 import FormField from "./FormField";
 import { validationRules } from "../validations/validation";
+import { normalizePhone, normalizeTwitter, trim, trimToLowercase } from "../transformation/transform";
 interface IYoutubeFormInput {
     username: string;
     email: string;
@@ -57,27 +58,40 @@ const YoutubeForm = () => {
             <form onSubmit={handleSubmit(onSubmit)} noValidate>
                 <FormField label="Username" id="username"
                     error={errors.username?.message}>
-                    <input type="text" id="username" {...register("username", validationRules.username)} />
+                    <input type="text" id="username" {...register("username", {
+                        ...validationRules.username,
+                        setValueAs: trim
+                    })} />
                 </FormField>
 
                 <FormField label="Email" id="email"
                     error={errors.email?.message}>
-                    <input type="text" id="email" {...register("email", validationRules.email)} />
+                    <input type="text" id="email" {...register("email", {
+                        ...validationRules.email,
+                        setValueAs: trimToLowercase
+                    })} />
                 </FormField>
-
                 <FormField label="Channel" id="channel"
                     error={errors.channel?.message}>
-                    <input type="text" id="channel" {...register("channel", validationRules.channel)} />
+                    <input type="text" id="channel" {...register("channel", {
+                        ...validationRules.channel,
+                        setValueAs: trim
+                    })} />
                 </FormField>
-
                 <FormField label="Facebook" id="facebook"
                     error={errors.social?.facebook?.message}>
-                    <input type="text" id="facebook" {...register("social.facebook", validationRules.facebook)} />
+                    <input type="text" id="facebook" {...register("social.facebook", {
+                        //...validationRules.facebook,
+                        setValueAs: trim
+                    })} />
                 </FormField>
 
                 <FormField label="Twitter" id="twitter"
                     error={errors.social?.twitter?.message}>
-                    <input type="text" id="twitter" {...register("social.twitter", validationRules.twitter)} />
+                    <input type="text" id="twitter" {...register("social.twitter", {
+                        //...validationRules.twitter,
+                        setValueAs: normalizeTwitter
+                    })} />
                 </FormField>
 
                 {/* removed static phoneNumbers array as we are going for dynamic one */}
@@ -104,6 +118,7 @@ const YoutubeForm = () => {
                                 id={`phone-${index}`}
                                 {...register(`phoneNumbers.${index}.phNumber` as const, {
                                     ...validationRules.phone,
+                                    setValueAs: normalizePhone,
                                     required: index === 0
                                         ? "Primary phone is required"
                                         : false
