@@ -1,23 +1,11 @@
-import { useFieldArray, useForm, useWatch } from "react-hook-form";
+import { useFieldArray, useForm } from "react-hook-form";
 import { DevTool } from "@hookform/devtools";
 import FormField from "./FormField";
 import { validationRules } from "../validations/validation";
-import { normalizePhone, normalizeTwitter, trim, trimToLowercase } from "../transformation/transform";
-interface IYoutubeFormInput {
-    username: string;
-    email: string;
-    channel: string;
-    social: {
-        facebook: "",
-        twitter: ""
-    },
-    //phoneNumbers: string[];  //removed static phoneNumbers array as we are going for dynamic one
-    phoneNumbers: {
-        phNumber: string
-    }[],
-    age: number,
-    dob: Date
-}
+import { normalizePhone, trim, trimToLowercase } from "../transformation/transform";
+import type { IYoutubeFormInput } from "../typed/IYoutubeFormInput";
+import TwitterField from "./TwitterField";
+
 const YoutubeForm = () => {
     const form = useForm<IYoutubeFormInput>({
         defaultValues: async () => {
@@ -47,10 +35,7 @@ const YoutubeForm = () => {
     const { errors } = formState;
 
     //const watchFacebook = watch("social.facebook");
-    const watchFacebook = useWatch({
-        name: "social.facebook",
-        control
-    });
+
 
     const watchPhoneNumbers = watch("phoneNumbers");
 
@@ -94,25 +79,7 @@ const YoutubeForm = () => {
                     })} />
                 </FormField>
 
-                {watchFacebook && (<FormField label="Twitter" id="twitter"
-                    error={errors.social?.twitter?.message}>
-                    <input type="text" id="twitter" {...register("social.twitter", {
-                        //...validationRules.twitter,
-                        setValueAs: normalizeTwitter
-                    })} />
-                </FormField>)}
-
-                {/* removed static phoneNumbers array as we are going for dynamic one */}
-
-                {/* <FormField label="Primary Phone Number" id="primary-phone"
-                    error={errors.phoneNumbers?.message}>
-                    <input type="text" id="primary-phone" {...register("phoneNumbers.0", validationRules.phone)} />
-                </FormField>
-                <FormField label="Seconday Phone Number" id="seconday-phone"
-                    error={errors.phoneNumbers?.message}>
-                    <input type="text" id="seconday-phone" {...register("phoneNumbers.1", validationRules.phone)} />
-                </FormField> */}
-
+                <TwitterField control={control} register={register} errors={errors} />
                 {/* Dynamic Phone Numbers */}
 
                 <div>
