@@ -47,5 +47,21 @@ export const validationRules = {
             value: /^[6-9]\d{9}$/,
             message: "Enter valid 10-digit Indian phone number"
         }
+    },
+
+    age: {
+        required: "Age is required",
+        min: {
+            value: 18,
+            message: "Minimum age is 18"
+        },
+        max: {
+            value: 99,
+            message: "Maximum age is 99"
+        }
+    },
+
+    dob: {
+        required: "Date of Birth is required"
     }
 }

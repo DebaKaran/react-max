@@ -13,7 +13,9 @@ interface IYoutubeFormInput {
     //phoneNumbers: string[];  //removed static phoneNumbers array as we are going for dynamic one
     phoneNumbers: {
         phNumber: string
-    }[]
+    }[],
+    age: number,
+    dob: Date
 }
 const YoutubeForm = () => {
     const form = useForm<IYoutubeFormInput>({
@@ -33,7 +35,9 @@ const YoutubeForm = () => {
                 //phoneNumbers: ["", ""]
                 phoneNumbers: [{
                     phNumber: ""
-                }]
+                }],
+                age: 0,
+                dob: new Date()
             }
         }
     });
@@ -127,7 +131,22 @@ const YoutubeForm = () => {
                         Add Phone Number
                     </button>
                 </div>
-
+                <FormField label="Age" id="age"
+                    error={errors.age?.message}>
+                    <input type="number" id="age" {...register("age",
+                        {
+                            ...validationRules.age,
+                            valueAsNumber: true // 🔥 converts string → number
+                        }
+                    )} />
+                </FormField>
+                <FormField label="Date Of Birth" id="dob"
+                    error={errors.dob?.message}>
+                    <input type="date" id="dob" {...register("dob", {
+                        ...validationRules.dob,
+                        valueAsDate: true
+                    })} />
+                </FormField>
                 <button>Submit</button>
             </form>
             {import.meta.env.DEV && <DevTool control={control} />} {/* set up the dev tool */}
