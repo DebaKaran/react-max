@@ -1,4 +1,4 @@
-import { useFieldArray, useForm } from "react-hook-form";
+import { useFieldArray, useForm, useWatch } from "react-hook-form";
 import { DevTool } from "@hookform/devtools";
 import FormField from "./FormField";
 import { validationRules } from "../validations/validation";
@@ -6,6 +6,7 @@ import { trim, trimToLowercase } from "../transformation/transform";
 import type { IYoutubeFormInput } from "../typed/IYoutubeFormInput";
 import TwitterField from "./TwitterField";
 import PhoneNumbers from "./PhoneNumbers";
+import { useEffect } from "react";
 
 const YoutubeForm = () => {
     const form = useForm<IYoutubeFormInput>({
@@ -32,11 +33,22 @@ const YoutubeForm = () => {
         }
     });
 
-    const { register, control, handleSubmit, formState, watch, getValues, setError } = form;
+    const { register, control, handleSubmit, formState, watch, getValues, setValue, setError } = form;
     const { errors } = formState;
 
-    //const watchFacebook = watch("social.facebook");
+    const username = useWatch({
+        control,
+        name: "username"
+    });
 
+    useEffect(() => {
+        if (username && !formState.dirtyFields.channel) {
+            setValue("channel", `@${username}`, {
+                shouldValidate: true,
+                shouldDirty: true
+            });
+        }
+    }, [username, setValue, formState.dirtyFields.channel]);
 
     const watchPhoneNumbers = watch("phoneNumbers");
 
