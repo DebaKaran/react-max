@@ -28,7 +28,7 @@ const PhoneNumbers = ({
 
         //u can add max 4 phones
         if (phones.length >= 4) {
-            setError(`phoneNumbers.${lastIndex}.phNumber`, {
+            setError(`phoneNumbers.${phones.length - 1}.phNumber`, {
                 type: "manual",
                 message: "Maximum number of phones allowed is 4"
             });
