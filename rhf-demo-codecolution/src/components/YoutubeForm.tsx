@@ -88,42 +88,31 @@ const YoutubeForm = () => {
                 </FormField> */}
 
                 {/* Dynamic Phone Numbers */}
+
                 <div>
                     {fields.map((item, index) => (
-                        <div key={item.id} className="form-control">
-
-                            {/* 
-                                register dynamic field using index
-                                structure becomes:
-                                phoneNumbers: [{ phNumber: "value" }]
-                            */}
+                        <FormField key={item.id}
+                            label={index === 0 ? "Primary Phone" : `Secondary Phone ${index}`}
+                            id={`phone-${index}`}
+                            error={errors.phoneNumbers?.[index]?.message}>
                             <input
                                 type="text"
+                                id={`phone-${index}`}
                                 {...register(`phoneNumbers.${index}.phNumber` as const, {
-
-                                    // reuse common phone validation rule
                                     ...validationRules.phone,
-
-                                    // make only first field (primary) required
                                     required: index === 0
                                         ? "Primary phone is required"
                                         : false
                                 })}
                             />
 
-                            {/* 
-                                allow removing only secondary fields
-                                (prevents deleting primary phone)
-                            */}
                             {index > 0 && (
-                                <button
-                                    type="button"
-                                    onClick={() => remove(index)} // removes field at given index
-                                >
+                                <button type="button" onClick={() => remove(index)}>
                                     Remove
                                 </button>
                             )}
-                        </div>
+                        </FormField>
+
                     ))}
 
                     {/* 
